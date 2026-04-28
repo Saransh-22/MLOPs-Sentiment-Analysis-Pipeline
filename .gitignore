@@ -1,0 +1,9 @@
+venv/
+__pycache__/
+*.pyc
+mlruns/
+data/processed/
+.env
+.DS_Store
+Thumbs.db
+mlflow.db
