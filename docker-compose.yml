@@ -3,27 +3,41 @@ services:
     build: .
     container_name: sentiment-api
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    restart: unless-stopped
+
     ports:
       - "8000:8000"
+
     environment:
       - PYTHONUNBUFFERED=1
+
     volumes:
       - ./models:/app/models
       - ./data:/app/data
       - ./mlruns:/app/mlruns
 
+    networks:
+      - sentiment-network
+
   streamlit:
     build: .
     container_name: sentiment-ui
     command: streamlit run app/ui.py --server.port 8501 --server.address 0.0.0.0
+    restart: unless-stopped
+
     ports:
       - "8501:8501"
+
     depends_on:
       - fastapi
+
     environment:
       - PYTHONUNBUFFERED=1
+      - SENTIMENT_API_URL=http://fastapi:8000   # ✅ Move it here
+
     volumes:
       - ./app:/app/app
+
     networks:
       - sentiment-network
 

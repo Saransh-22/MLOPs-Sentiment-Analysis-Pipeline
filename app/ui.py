@@ -10,7 +10,10 @@ st.set_page_config(
     layout="centered"
 )
 
-API_BASE_URL = os.getenv("SENTIMENT_API_URL", "http://localhost:8000")
+API_BASE_URL = os.getenv("SENTIMENT_API_URL")
+
+if API_BASE_URL is None:
+    API_BASE_URL = "http://localhost:8000"
 API_URL = f"{API_BASE_URL}/predict"
 
 st.title("Sentiment Analysis App")
@@ -64,7 +67,7 @@ if st.button("Predict", use_container_width=True):
                 st.error(
                     "❌ **Cannot connect to API**\n\n"
                     "Make sure the FastAPI backend is running:\n"
-                    "`docker run -p 8000:8000 sentiment-api`"
+                    "`docker compose up`"
                 )
             except requests.exceptions.Timeout:
                 st.error("❌ API request timed out. Try again.")
