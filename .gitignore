@@ -2,7 +2,8 @@ venv/
 __pycache__/
 *.pyc
 mlruns/
-data/processed/
+data/processed/*
+!data/processed/vectorizer.pkl
 .env
 .DS_Store
 Thumbs.db
